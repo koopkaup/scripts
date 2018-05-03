@@ -17,15 +17,18 @@ try:
 except ImportError:
     raise ImportError("BioPython is not installed!")
 
-blastfasta = open(sys.argv[3], 'w+') # Output fasta file
+blastResults = SearchIO.parse(sys.argv[1], 'blast-tab')     # Blast results file
+queryFasta = SeqIO.parse(sys.argv[2], 'fasta')              # Query fasta
+hitsFasta = open(sys.argv[3], 'w+')                         # Output fasta file
 
+# Add all blast hits to list
 query_id = set()
-
-for i in SearchIO.parse(sys.argv[1], 'blast-tab'): # Blast results file
+for i in blastResults:
 	query_id.add(i.id)
 
-for y in SeqIO.parse(sys.argv[2], 'fasta'): # Query fasta
+# Find matches
+for y in queryFasta:
 	if y.id in query_id:
-		SeqIO.write(y, blastfasta, 'fasta')
+		SeqIO.write(y, hitsFasta, 'fasta')
 
-blastfasta.close()
+hitsFasta.close()
