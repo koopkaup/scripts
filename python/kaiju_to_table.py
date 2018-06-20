@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 '''
+Merge kaiju report files for a given taxonomic rank to single table. Can be used to separate bacteria and archaea.
+Proportions are calculated separately for bacteria and archaea.
 Run as:
 kaiju_to_table.py input_files
 '''
@@ -35,7 +37,7 @@ def taxaFunc(line, kingdom, total, i):
 ####  Program  ####
 
 kingdom = int(input('Do you want bacteria [1] or archaea [2]?\n'))
-taxonLvl = int(input('What taxonomy level you have in your input files?\n'
+taxonLvl = int(input('What taxonomic rank you have in your input files?\n'
     'Phylum [1],Class [2],Order [3],Family [4],Genus [5],Species [6]\n'))
 numbers = int(input('Do you want to represent proportions [1] or absolute numbers [2]?\n'))
 
