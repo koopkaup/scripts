@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 '''
-Extract blast search hits from query fasta file and write a new fasta file.
-Run as:
-blast_to_fasta.py blast.results.csv query.fasta output.fasta
+    Extract blast search hits from query fasta file and write a new fasta file.
+    Run as:
+    blast_to_fasta.py blast.results.csv query.fasta output.fasta
 '''
 __author__ = "Kristjan Oopkaup"
 __license__ = "GPL"
@@ -24,11 +24,11 @@ hitsFasta = open(sys.argv[3], 'w+')                         # Output fasta file
 # Add all blast hits to list
 query_id = set()
 for i in blastResults:
-	query_id.add(i.id)
+    query_id.add(i.id)
 
 # Find matches
 for y in queryFasta:
-	if y.id in query_id:
-		SeqIO.write(y, hitsFasta, 'fasta')
+    if y.id in query_id:
+        SeqIO.write(y, hitsFasta, 'fasta')
 
 hitsFasta.close()
