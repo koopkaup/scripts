@@ -50,6 +50,7 @@ elif kingdom == 2:
 
 taxaDict = defaultdict(list)
 firstLine = taxa[taxonLvl]
+totalSum = list()
 for i in range(1, len(sys.argv)):
     with open(sys.argv[i]) as kaijuIN:
         total = 0
@@ -63,6 +64,7 @@ for i in range(1, len(sys.argv)):
                 taxaDict, total = taxaFunc(line, 'Bacteria', total, i)
             elif kingdom == 2:
                 taxaDict, total = taxaFunc(line, 'Archaea', total, i)
+        totalSum.append(total)
         if numbers == 1:
             for v in taxaDict.values():
                 v[-1] = round(v[-1] / total,5)
@@ -75,5 +77,6 @@ for taxon, nr in taxaDict.items():
         for zeros in range(1, i-len(nr)+1):
             taxaDict[taxon].append(0)
     table_out.write('%s\t%s\n' % (taxon, '\t'.join(str(v) for v in nr)))
+table_out.write('Total\t%s' % ('\t'.join(str(v) for v in totalSum)))
 
 table_out.close()
