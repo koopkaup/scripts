@@ -8,7 +8,7 @@ kaiju_to_table.py input_files
 '''
 __author__ = "Kristjan Oopkaup"
 __license__ = "GPL"
-__version__ = "0.1"
+__version__ = "0.5"
 __maintainer__ = "Kristjan Oopkaup"
 __email__ = "kristjan.oopkaup@gmail.com"
 __status__ = "Production"
@@ -35,13 +35,12 @@ def taxaFunc(line, kingdom, total, i):
     return taxaDict, total
 
 ####  Program  ####
-
 kingdom = int(input('Do you want bacteria [1] or archaea [2]?\n'))
 taxonLvl = int(input('What taxonomic rank you have in your input files?\n'
     'Phylum [1],Class [2],Order [3],Family [4],Genus [5],Species [6]\n'))
 numbers = int(input('Do you want to represent proportions [1] or absolute numbers [2]?\n'))
 
-taxa = ['Kingdom','Phylum','Class','Order','Family','Genus','Species']
+taxa = ['kingdom','phylum','class','order','family','genus','species']
 
 if kingdom == 1:
     table_out = open('kaiju_table_bacteria_'+taxa[taxonLvl]+'.csv', 'w+')
@@ -64,18 +63,17 @@ for i in range(1, len(sys.argv)):
                 taxaDict, total = taxaFunc(line, 'Bacteria', total, i)
             elif kingdom == 2:
                 taxaDict, total = taxaFunc(line, 'Archaea', total, i)
+        for k, v in taxaDict.items():
+            for zeros in range(1, i-len(v)+1):
+                taxaDict[k].append(0)
         totalSum.append(total)
         if numbers == 1:
-            for v in taxaDict.values():
-                v[-1] = round(v[-1] / total,5)
-            taxaDict = {k: v for k, v in taxaDict.items()}
-
+            for k, v in taxaDict.items():
+                v = v[:-1] + [round(v[-1]/total,5)]
+                taxaDict[k] = v
 
 table_out.write(firstLine + '\n')
 for taxon, nr in taxaDict.items():
-    if len(nr) < i:
-        for zeros in range(1, i-len(nr)+1):
-            taxaDict[taxon].append(0)
     table_out.write('%s\t%s\n' % (taxon, '\t'.join(str(v) for v in nr)))
 table_out.write('Total\t%s' % ('\t'.join(str(v) for v in totalSum)))
 
