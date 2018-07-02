@@ -35,6 +35,7 @@ def taxaFunc(line, kingdom, total, i):
     return taxaDict, total
 
 ####  Program  ####
+
 kingdom = int(input('Do you want bacteria [1] or archaea [2]?\n'))
 taxonLvl = int(input('What taxonomic rank you have in your input files?\n'
     'Phylum [1],Class [2],Order [3],Family [4],Genus [5],Species [6]\n'))
@@ -55,9 +56,6 @@ for i in range(1, len(sys.argv)):
         total = 0
         firstLine += '\t%s' % (sys.argv[i])
         lines = kaijuIN.readlines()[2:-5]
-        #lines = kaijuIN.readlines()
-        #target = lines.index(-------------------------------------------)
-        #print(target)
         for line in lines:
             if kingdom == 1:
                 taxaDict, total = taxaFunc(line, 'Bacteria', total, i)
@@ -75,6 +73,6 @@ for i in range(1, len(sys.argv)):
 table_out.write(firstLine + '\n')
 for taxon, nr in taxaDict.items():
     table_out.write('%s\t%s\n' % (taxon, '\t'.join(str(v) for v in nr)))
-table_out.write('Total\t%s' % ('\t'.join(str(v) for v in totalSum)))
+table_out.write('Sequence count\t%s' % ('\t'.join(str(v) for v in totalSum)))
 
 table_out.close()
