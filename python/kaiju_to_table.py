@@ -3,7 +3,9 @@
 '''
 Merge kaiju summary report files for a given taxonomic rank to single table. Can be used to separate bacteria and archaea.
 Proportions are calculated separately for bacteria and archaea.
-kaijuReport must be run first with argument -p (Print full taxon path); otherwise it is not possible to assign taxons
+kaijuReport must be run using argument -p (Print full taxon path)
+for example: kaijuReport -t nodes.dmp -n names.dmp -r phylum -p -i kaiju.out
+
 Run as:
 kaiju_to_table.py input_files
 '''
