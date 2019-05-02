@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+from itertools import groupby
+import sys, re
+
+filename = sys.argv[1]
+
+tot = 0
+tot2 = 0
+num = 0
+gaps = 0
+tempNum = 0
+maxRead = 0
+minRead = 1.0e18
+with open(filename) as handle:
+    if handle.read(1) == '>':
+        for header, group in groupby(handle, lambda x:x.startswith('>')):
+            if not header:
+                for seq in group:
+                    if not seq.strip().isalpha():
+                        gaps = 1
+                    tot += len(re.sub(r'\W+', '', seq.strip()))
+                    tot2 += len(re.sub(r'\W+', '', seq.strip()))
+                if tot2 > maxRead:
+                    maxRead = tot2
+                elif tot2 < minRead:
+                    minRead = tot2
+                tot2 = 0
+                num += 1
+                #tot += sum(map(lambda x: len(x.strip()), group))
+    else:
+        sys.exit("This is not a fasta file!")
+if num==0:
+    print("File is empty!")
+else:
+    result = float(tot)/num
+    if gaps:
+        print("Your sequences contained gaps. Gaps are not counted.")
+    print("Filename: " + sys.argv[1])
+    print("Number of sequences: " + str(num))
+    print("Average length: " + str("%.2f" % result))
+    print("Maximum read length: " + str(maxRead))
+    if num > 1:
+        print("Minimum read length: " + str(minRead))
+    print("Total number of nucleotides: " + str(tot))
